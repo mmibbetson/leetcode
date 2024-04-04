@@ -5,4 +5,4 @@ module RichestCustomerWealth
 //     List.fold (fun acc cur -> let w = List.sum cur in if w > acc then w else acc) 0
 
 // Taken from Connor Hoekstra's (code_report) haskell solution
-let maximumWealth = Seq.max << Seq.map Seq.sum
+let maximumWealth = List.max << List.map List.sum
