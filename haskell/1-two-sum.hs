@@ -1,0 +1,1 @@
+twoSum nums target = map first $ filter \(idx, num) -> contains $ target- num $ removeAt idx nums $ indexed nums
