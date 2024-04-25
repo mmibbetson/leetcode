@@ -1,5 +1,3 @@
-import GHC.Num (integerIsNegative)
-
 arraySign :: [Int] -> Int
 arraySign nums = case product nums of
   0 -> 0
