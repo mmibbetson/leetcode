@@ -1,14 +1,32 @@
+import Control.Monad (liftM2)
 import Data.Char (toLower)
-import Data.List (groupBy)
 
-reverseVowels :: String -> String
-reverseVowels = liftM2 rebuild segments revVowels
+reverseVowels :: [Char] -> [Char]
+reverseVowels = liftM2 (inner []) revVowelsOnly id
   where
-    rebuild = concat . zipWith (\x y -> [x, y])
-    revVowels = reverse . map (\x -> [x]) . filter isVowel
+    isVowel = flip elem "aeiou" . toLower
+    revVowelsOnly = reverse . filter isVowel
+    inner acc [] [] = reverse acc
+    inner acc [] ys = reverse acc ++ ys
+    inner acc (x : xs) (y : ys)
+      | isVowel y = inner (x : acc) xs ys
+      | otherwise = inner (y : acc) (x : xs) ys
 
-isVowel :: Char -> Bool
-isVowel c = toLower c `elem` "aeiou"
+-- Given a string s, reverse only all the vowels in the string and return it.
 
-splitByVowels :: [Char] -> [[Char]]
-splitByVowels = concat . groupBy (\x y -> not (isVowel x && isVowel y))
+-- The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+-- Example 1:
+
+-- Input: s = "hello"
+-- Output: "holle"
+
+-- Example 2:
+
+-- Input: s = "leetcode"
+-- Output: "leotcede"
+
+-- Constraints:
+
+--     1 <= s.length <= 3 * 105
+--     s consist of printable ASCII characters.
