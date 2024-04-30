@@ -2,16 +2,15 @@ import Control.Monad (liftM2)
 import Data.Char (toLower)
 
 reverseVowels :: [Char] -> [Char]
-reverseVowels = liftM2 (inner []) (reverse . filter isVowel) id
+reverseVowels = liftM2 (recurse []) (reverse . filter isVowel) id
   where
     isVowel = flip elem "aeiouAEIOU" . toLower
-    inner acc [] [] = reverse acc
-    inner acc [] ys = reverse acc ++ ys
-    inner acc (x : xs) (y : ys)
-      | isVowel y = inner (x : acc) xs ys
-      | otherwise = inner (y : acc) (x : xs) ys
 
-TRY IT WITH A REDUCE FOR THE INNER
+    recurse acc [] [] = reverse acc
+    recurse acc [] ys = reverse acc ++ ys
+    recurse acc (x : xs) (y : ys)
+      | isVowel y = recurse (x : acc) xs ys
+      | otherwise = recurse (y : acc) (x : xs) ys
 
 -- Given a string s, reverse only all the vowels in the string and return it.
 

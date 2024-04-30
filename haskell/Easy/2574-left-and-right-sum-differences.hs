@@ -1,5 +1,28 @@
+import Control.Monad (liftM2)
+
 leftRightDifference :: [Int] -> [Int]
-leftRightDifference nums =
+leftRightDifference nums = zipWith sumDiff [0 ..] nums
+  where
+    leftSum xs i = sum (take i xs)
+    rightSum xs i = sum (drop (i + 1) xs)
+
+    sumDiff i _
+      | i == 0 = abs (-(rightSum nums 0))
+      | i == length nums = leftSum nums i
+      | otherwise = abs (leftSum nums i - rightSum nums i)
+
+-- Code_report video inspired:
+(.:) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
+(f .: g) x y = f (g x y)
+
+infixr 9 .:
+
+leftRightDifference' :: [Int] -> [Int]
+leftRightDifference' =
+  liftM2
+    (zipWith (abs .: (-)))
+    (init . scanl (+) 0)
+    (tail . scanr (+) 0)
 
 -- Given a 0-indexed integer array nums, find a 0-indexed integer array answer where:
 

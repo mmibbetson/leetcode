@@ -1,7 +1,9 @@
-import Data.List (groupBy, sort)
+import Data.Bits (xor)
+import Data.List (group, sort)
+import Control.Monad (join)
 
 singleNumber :: [Int] -> Int
-singleNumber = head . head . filter ((== 1) . length) . groupBy (==) . sort
+singleNumber = head . join . filter ((== 1) . length) . group . sort
 
 -- ChatGPT helped with this one:
 singleNumber' :: [Int] -> Int

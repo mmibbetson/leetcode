@@ -3,7 +3,8 @@ numJewelsInStones jewels stones = length (filter (`elem` jewels) stones)
 
 -- Point-free solution
 (.:) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
-(.:) = (.) . (.)
+(f .: g) x y = f (g x y)
+
 infixr 9 .:
 
 numJewelsInStones' :: String -> String -> Int
