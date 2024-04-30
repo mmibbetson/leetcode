@@ -1,3 +1,1 @@
-let revString = String.concat "" << List.map string << List.rev
-
-let isPalindrome x = let str = string x in str = revString str
+let isPalindrome x = let str = string x in str = (str |> List.rev |> List.map string |> String.concat "")
