@@ -1,5 +1,35 @@
+-- Most readable definition
 truncateSentence :: Int -> String -> String
 truncateSentence n = unwords . take n . words
+
+-- Point-free
+truncateSentence' :: Int -> String -> String
+truncateSentence' = unwords .: weirdDove take words
+
+-- blackbird
+(.:) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
+(.:) f g x y = f (g x y)
+
+cardinalTwiceRemoved :: (a -> b -> c -> d) -> a -> c -> b -> d
+cardinalTwiceRemoved f x g y = f x y g
+
+goldfinch :: (a -> c -> d) -> (b -> c) -> b -> a -> d
+goldfinch f g x y = f y (g x)
+
+dove :: (a -> c -> d) -> a -> (b -> c) -> b -> d
+dove f x g y = f x (g y)
+
+-- I conceptualised this combinator out of necessity for this problem
+-- It's a G combinator with the last two arguments flipped
+-- Or a D combinator with the middle two arguments flipped
+-- So it can be spelled as:
+-- BCG
+weirdDove :: (a -> c -> d) -> (b -> c) -> a -> b -> d
+weirdDove = cardinalTwiceRemoved dove
+
+-- or C**D
+weirdDove' :: (a -> c -> d) -> (b -> c) -> a -> b -> d
+weirdDove' = flip .: goldfinch
 
 -- A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each of the words consists of only uppercase and lowercase English letters (no punctuation).
 
