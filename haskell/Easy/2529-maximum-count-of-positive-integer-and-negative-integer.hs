@@ -1,4 +1,5 @@
 import Control.Monad (liftM2)
+import Control.Applicative (liftA2)
 import Data.Function (on)
 
 -- First solution
@@ -9,6 +10,11 @@ maximumCount = liftM2 max (length . filter (> 0)) (length . filter (< 0))
 -- abcde.a(b(ce)(b(de))
 myCombinator :: (c -> c -> d) -> (a -> b -> c) -> a -> a -> b -> d
 myCombinator f g x y z = f (g x z) (g y z)
+
+-- Stackoverflow gigachad K. A. Buhr:
+-- Spelling: ΨBΦ
+myCombinator' :: (c -> c -> d) -> (a -> b -> c) -> a -> a -> b -> d
+myCombinator' = on . liftA2
 
 (.:) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
 (.:) f g x y = f (g x y)
