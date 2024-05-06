@@ -1,5 +1,6 @@
 import Data.List (elemIndex)
 import Data.Maybe qualified
+import Control.Monad (liftM2)
 
 reversePrefix :: String -> Char -> String
 reversePrefix word ch = reverse prefix ++ suffix
@@ -10,7 +11,7 @@ reversePrefix word ch = reverse prefix ++ suffix
     suffix = drop (length prefix) word
 
 reversePrefix' :: String -> Char -> String
-reversePrefix' =
+reversePrefix' = liftM2 (++) reversePrefix suffix
 
 -- Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.
 

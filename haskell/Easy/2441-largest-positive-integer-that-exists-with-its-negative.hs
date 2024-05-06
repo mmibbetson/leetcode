@@ -1,14 +1,14 @@
-import Data.List (group, groupBy, sort, sortBy)
+import Data.List (group, sortBy)
 
 findMaxK :: [Int] -> Int
-findMaxK = head . last . filter ((== 2) . length) . groupBy (==) . sortBy (flip compare . abs)
+findMaxK = head . last . filter ((== 2) . length) . group . sortBy (flip compare . abs)
 
 findMaxK' :: [Int] -> Int
 findMaxK' =
   head
     . head
     . filter ((== 2) . length)
-    . groupBy (==)
+    . group
     . sortBy (flip compare)
     . map abs
 
