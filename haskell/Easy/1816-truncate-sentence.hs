@@ -23,11 +23,11 @@ dove f x g y = f x (g y)
 -- It's a G combinator with the last two arguments flipped
 -- Or a D combinator with the middle two arguments flipped
 -- So it can be spelled as:
--- BCG
+-- C**D
 weirdDove :: (a -> c -> d) -> (b -> c) -> a -> b -> d
 weirdDove = cardinalTwiceRemoved dove
 
--- or C**D
+-- or CB1G
 weirdDove' :: (a -> c -> d) -> (b -> c) -> a -> b -> d
 weirdDove' = flip .: goldfinch
 

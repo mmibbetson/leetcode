@@ -1,4 +1,16 @@
-findMaxK nums =
+import Data.List (group, groupBy, sort, sortBy)
+
+findMaxK :: [Int] -> Int
+findMaxK = head . last . filter ((== 2) . length) . groupBy (==) . sortBy (flip compare . abs)
+
+findMaxK' :: [Int] -> Int
+findMaxK' =
+  head
+    . head
+    . filter ((== 2) . length)
+    . groupBy (==)
+    . sortBy (flip compare)
+    . map abs
 
 -- Given an integer array nums that does not contain any zeros, find the largest positive integer k such that -k also exists in the array.
 
