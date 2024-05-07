@@ -1,17 +1,12 @@
-import Data.List (elemIndex)
-import Data.Maybe qualified
 import Control.Monad (liftM2)
+import Data.List (elemIndex)
+import Data.Maybe (fromMaybe)
 
 reversePrefix :: String -> Char -> String
-reversePrefix word ch = reverse prefix ++ suffix
+reversePrefix word ch = revPrefix ++ suffix
   where
-    prefix = case elemIndex ch word of
-      Just x -> take (x + 1) word
-      Nothing -> ""
-    suffix = drop (length prefix) word
-
-reversePrefix' :: String -> Char -> String
-reversePrefix' = liftM2 (++) reversePrefix suffix
+    revPrefix = reverse (take (maybe 0 (+ 1) (elemIndex ch word)) word)
+    suffix = drop (length revPrefix) word
 
 -- Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.
 

@@ -1,6 +1,6 @@
 import Control.Applicative (liftA2)
 import Control.Monad (liftM2)
-import Data.Function (on, (&))
+import Data.Function (on)
 import GHC.Num (integerIsNegative)
 
 -- First solution
@@ -24,15 +24,15 @@ psiBPhi = on . liftA2
 maximumCount' :: [Int] -> Int
 maximumCount' = psiBPhi max (length .: filter) (> 0) (< 0)
 
--- Adapted from code_report video comment
+-- Adapted from code_report video comment & random reddit comment
+-- I think this may actually be the best solution in terms of clarity
 maximumCount'' :: [Int] -> Int
-maximumCount'' xs = (max `on` length . flip filter xs) (> 0) (< 0)
+maximumCount'' = liftA2 (max `on` length) (filter (> 0)) (filter (< 0))
 
 -- Evan's algorithm (Still need to trim down the case for ignoring zeroes... maybe just do recursive def?)
--- Chose to use reverse application and infix to see a left to right reading style
 maxCount :: [Int] -> Int
 maxCount xs = pos `max` neg
   where
-    noZeroes = xs & filter (/= 0)
-    neg = noZeroes & takeWhile (< 0) & length
-    pos = noZeroes & length & subtract neg
+    noZeroes = filter (/= 0) xs
+    neg = length (takeWhile (< 0) noZeroes)
+    pos = subtract neg (length noZeroes)
