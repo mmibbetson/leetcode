@@ -1,5 +1,20 @@
+import Control.Monad (liftM2)
+import Data.List (singleton)
+
 toGoatLatin :: String -> String
-toGoatLating sentence =
+toGoatLatin sentence = unwords (map (\word -> snd word ++ replicate (fst word) 'a') indexed)
+  where
+    indexed = zip [1 ..] (map maCondition (words sentence))
+    maCondition word = if head word `elem` "aeiouAEIOU" then tail word ++ ['m'] else tail word ++ [head word] ++ ['m']
+
+-- This feels kind of insane but I like it
+toGoatLatin' :: String -> String
+toGoatLatin' = unwords . zipWith (curry addAs) [1 ..] . map maCondition . words
+  where
+    maCondition word = if head word `elem` "aeiouAEIOU" then maVowel word else maConsonant word
+    maVowel = (++ ['m']) . tail
+    maConsonant = liftM2 (++) tail ((++ ['m']) . singleton . head)
+    addAs = liftM2 (++) snd (flip replicate 'a' . fst)
 
 -- You are given a string sentence that consist of words separated by spaces. Each word consists of lowercase and uppercase letters only.
 
