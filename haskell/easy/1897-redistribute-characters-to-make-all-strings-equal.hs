@@ -1,7 +1,8 @@
 import Data.List (group, nub, sort)
 
+-- THERE IS AN ERROR IF A LETTER APPEARS ENOUGH TO BE IN EACH WORD MORE THAN ONCE
 makeEqual :: [String] -> Bool
-makeEqual = (== 1) . length . nub . map length . group . sort . concat
+makeEqual words = foldl1 (==) $ map (\xs -> length xs `rem` length words == 0) $ group $ sort $ concat words
 
 -- You are given an array of strings words (0-indexed).
 
